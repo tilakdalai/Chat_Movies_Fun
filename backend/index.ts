@@ -22,14 +22,17 @@ const httpServer = createServer(app);
 // Socket.IO CORS - allow frontend origin from environment or all origins in dev
 const socketCorsOrigin = process.env.FRONTEND_URL 
   ? process.env.FRONTEND_URL.split(',').map(o => o.trim())
-  : '*'; // '*' allows all origins in development
+  : ['http://localhost:3000', 'http://localhost:5173']; // Changed from '*'
 
 const io = new Server(httpServer, {
   cors: {
     origin: socketCorsOrigin,
     methods: ['GET', 'POST'],
-    credentials: true
-  }
+    credentials: true,
+    allowedHeaders: ['Content-Type']
+  },
+  transports: ['websocket', 'polling'], // Add this
+  allowEIO3: true // Add this for compatibility
 });
 
 function getPublicUnoState(gameState: UnoGameState) {
@@ -72,11 +75,13 @@ const broadcastPublicRooms = () => {
 // CORS configuration - allow frontend origin from environment or all origins in dev
 const allowedOrigins = process.env.FRONTEND_URL 
   ? process.env.FRONTEND_URL.split(',').map(o => o.trim())
-  : true; // true allows all origins in development
+  : ['http://localhost:3000', 'http://localhost:5173']; // Changed from true
 
 app.use(cors({ 
   origin: allowedOrigins,
-  credentials: true 
+  credentials: true,
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
 
