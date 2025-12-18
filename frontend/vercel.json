@@ -4,6 +4,6 @@
   "installCommand": "npm install",
   "framework": "vite",
   "env": {
-    "VITE_API_URL": "https://your-backend.vercel.app"
+    "VITE_API_URL": "http://chat-movies-fun-backend.vercel.app/"
   }
 }
