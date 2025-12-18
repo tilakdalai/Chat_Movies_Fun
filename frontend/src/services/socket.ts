@@ -11,7 +11,7 @@ class SocketService {
     // Use environment variable for backend URL, fallback to localhost for dev
     const socketUrl = import.meta.env.VITE_API_URL || 
       (window.location.hostname === 'localhost' 
-        ? 'http://localhost:3001'
+        ? 'https://chat-movies-fun-backend.vercel.app/'
         : `${window.location.protocol}//${window.location.hostname}:3001`);
 
     console.log('Connecting to socket server:', socketUrl);
